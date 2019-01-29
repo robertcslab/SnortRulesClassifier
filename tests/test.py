@@ -54,7 +54,7 @@ class TestSnortRule(unittest.TestCase):
         }
 
     def test_sting_matching_checked(self):
-        res = Rule.sting_matching_checked(self.test_snort_rule)
+        res = Rule.string_matching_checked(self.test_snort_rule)
         self.assertEqual(res, True)
 
     def test_flow_checked(self):

@@ -306,7 +306,7 @@ class Rule:
             # as determined by the TCP sequence numbers.
         }
 
-    def sting_matching_checked(self):
+    def string_matching_checked(self):
         if self.payload_options["content"] or self.payload_options["content-list"]\
                 or self.payload_options['uricontent'] or self.payload_options['pcre']:
             return True

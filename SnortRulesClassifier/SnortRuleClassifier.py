@@ -29,9 +29,9 @@ class SnortRulesManager:
         class_id = 6
         if not snort_rule.payload_options_checked():
             class_id = 1
-        elif snort_rule.sting_matching_checked() and not snort_rule.flow_checked():
+        elif snort_rule.string_matching_checked() and not snort_rule.flow_checked():
             class_id = 2
-        elif snort_rule.sting_matching_checked() and snort_rule.flow_checked():
+        elif snort_rule.string_matching_checked() and snort_rule.flow_checked():
             # TODO: check depth in a flow
             class_id = 3
         # TODO: Parse pcre (Perl regex) to check order of string matching

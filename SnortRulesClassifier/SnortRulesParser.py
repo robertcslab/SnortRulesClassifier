@@ -62,7 +62,7 @@ class RuleParser:
 
                     else:
                         pass
-                        # raise Error
+                        # raise appropriate Error
             return snort_general_options_dict, snort_payload_options_dict, snort_non_payload_options_dict
 
         else:
