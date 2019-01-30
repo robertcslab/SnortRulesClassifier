@@ -193,3 +193,6 @@ alert tcp $EXTERNAL_NET any -> $HTTP_SERVERS $HTTP_PORTS (msg:"SERVER-IIS regist
 alert tcp $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"SERVER-WEBAPP philboard.mdb access"; flow:to_server,established; content:"/philboard.mdb"; http_uri; metadata:ruleset community, service http; reference:nessus,11682; classtype:web-application-activity; sid:2135; rev:8;)
 alert tcp $EXTERNAL_NET any -> $HOME_NET $HTTP_PORTS (msg:"SERVER-WEBAPP philboard_admin.asp authentication bypass attempt"; flow:to_server,established; content:"/philboard_admin.asp"; http_uri; content:"Cookie"; nocase; content:"philboard_admin=True"; distance:0; metadata:ruleset community, service http; reference:bugtraq,7739; reference:nessus,11675; classtype:web-application-attack; sid:2136; rev:9;)
 alert tcp $HOME_NET 666 -> $EXTERNAL_NET any (msg:"MALWARE-BACKDOOR BackConstruction 2.1 Server FTP Open Reply";)
+alert tcp any any <> 10.1.1.1 any (flowbits:isnotset,tagged; content:"foobar"; nocase; flowbits:set,tagged; tag:host,600,seconds,src;)
+pass tcp any any -> 192.168.1.1 80 (flow:to_server,established; content:"random content"; flags:S; tag:session,exclusive;)
+alert tcp any any -> any 23 (flow:established; content:"random content"; flags:S,CE; tag:session,10,packets;)

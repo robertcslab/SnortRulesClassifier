@@ -1,3 +1,6 @@
+import re
+
+
 class Rule:
 
     def __init__(self):
@@ -305,6 +308,27 @@ class Rule:
             # according to the number of bytes observed,
             # as determined by the TCP sequence numbers.
         }
+        self.post_detection_options = {
+            "logto": None,
+            # log all packets that trigger this rule to a special output log file
+
+            "session":  None,
+            # extract user data from TCP Sessions
+
+            "resp": None,
+            # enable an active response that kills the offending session
+
+            "tag": None,
+            #  log more than just the single packet that triggered the rule.
+            #  Format: tag:host, <count>, <metric>, <direction>;
+            #          tag:session[, <count>, <metric>][, exclusive];
+
+            "replace": None,
+            # replace the prior matching content with the given string (only inline mode)
+
+            "detection_filter": None,
+            # defines a rate which must be exceeded by a source or destination host before a rule can generate an event.
+        }
 
     def string_matching_checked(self):
         if self.payload_options["content"] or self.payload_options["content-list"]\
@@ -313,9 +337,7 @@ class Rule:
         return False
 
     def flow_checked(self):
-        """
-          To detect if rule applies on a flow
-        """
+        """  To detect if rule applies on a flow  """
         if self.non_payload_options["flow"]:
             return True
         return False
@@ -326,6 +348,17 @@ class Rule:
                 return True
         return False
 
+    def packet_counter_checked(self):
+        """ To check if the rule applies only on k-packets among the all matched ones """
+        packet_checker = False
+        counter_checker = False
+        if self.post_detection_options["tag"]:
+            for item in self.post_detection_options["tag"]:
+                if re.match(r'^[0-9]+$', item):
+                    counter_checker = True
+                if item == "packets":
+                    packet_checker = True
+        return packet_checker and counter_checker
 
 
 

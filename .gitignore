@@ -50,6 +50,10 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
+# My Own Test Files
+.classifiedrules.txt
+.testrules.txt
+
 #Pycharm
 .idea
 

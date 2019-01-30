@@ -38,6 +38,7 @@ class RuleParser:
         snort_general_options_dict = Rule().general_options
         snort_payload_options_dict = Rule().payload_options
         snort_non_payload_options_dict = Rule().non_payload_options
+        snort_post_detection_options_dict = Rule().post_detection_options
 
         if re.match(r"(^[a-z|A-Z].+?)?(\(.+;\)|;\s\))", rule_string):
             options = rule_string.split('(', 1)[1]  # options will be started after '('
@@ -54,16 +55,19 @@ class RuleParser:
                     if option_key in snort_general_options_dict.keys():
                         snort_general_options_dict[option_key] = option_argument
 
-                    if option_key in snort_payload_options_dict.keys():
+                    elif option_key in snort_payload_options_dict.keys():
                         snort_payload_options_dict[option_key] = option_argument
 
-                    if option_key in snort_non_payload_options_dict.keys():
+                    elif option_key in snort_non_payload_options_dict.keys():
                         snort_non_payload_options_dict[option_key] = option_argument
+
+                    elif option_key in snort_post_detection_options_dict.keys():
+                        snort_post_detection_options_dict[option_key] = option_argument
 
                     else:
                         pass
                         # raise appropriate Error
-            return snort_general_options_dict, snort_payload_options_dict, snort_non_payload_options_dict
+            return snort_general_options_dict, snort_payload_options_dict, snort_non_payload_options_dict, snort_post_detection_options_dict
 
         else:
             msg = 'Syntax Error, Please check if rule has been closed properly %s ' % rule_string
@@ -76,5 +80,6 @@ class RuleParser:
         new_rule.general_options = options[0]
         new_rule.payload_options = options[1]
         new_rule.non_payload_options = options[2]
+        new_rule.post_detection_options = options[3]
 
         return new_rule
