@@ -12,9 +12,10 @@ class SnortRulesManager:
         1: "Header Filters on a Single Packet",
         2: "String Matching on a Single Packet",
         3: "String Matching to a Bounded Depth in a Flow",
-        4: "String Matching Across an Entire Flow, Delivered in-order",
-        5: "String Matching Across an Entire Flow, Delivered out-of-order",
-        6: "No Type Detected"
+        4: "String Matching Across an Entire Flow",
+        5: "String Matching Across an Entire Flow, Delivered in-order",
+        6: "String Matching Across an Entire Flow, Delivered out-of-order",
+        7: "No Type Detected"
     }
 
     @staticmethod
@@ -31,9 +32,11 @@ class SnortRulesManager:
             class_id = 1
         elif snort_rule.string_matching_checked() and not snort_rule.flow_checked():
             class_id = 2
+        elif snort_rule.string_matching_checked() and snort_rule.flow_checked():
+            class_id = 4
         elif snort_rule.string_matching_checked() and snort_rule.flow_checked() and snort_rule.packet_counter_checked():
             class_id = 3
-        # TODO: Parse pcre (Perl regex) to check order of string matching
+        # TODO: Parse pcre (Perl regex) to check order of string matching (class_id:5,6)
         return class_id
 
     @staticmethod
@@ -56,6 +59,11 @@ if __name__ == "__main__":
     for rule in SnortRulesManager.parse_rules_from_file():
         classified_rules.append(mngr.classify_rule(rule))
 
+    print("Snort Rules Classification:")
+    for cat in mngr.snort_rules_classes:
+        print("Class ID {}: {}".format(cat, mngr.snort_rules_classes[cat]))
+
+    print("Output Class IDs:")
     print(classified_rules)  # for test
     mngr.write_classified_rules_to_file(classified_rules)
 

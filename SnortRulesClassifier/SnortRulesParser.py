@@ -45,25 +45,25 @@ class RuleParser:
 
                     if option_key in snort_general_options_dict.keys():
                         if snort_general_options_dict[option_key]:  # e.g, two content option with diff arguments
-                            snort_general_options_dict[option_key].append(option_argument)
+                            snort_general_options_dict[option_key].merge(option_argument)
                         else:
                             snort_general_options_dict[option_key] = option_argument
 
                     elif option_key in snort_payload_options_dict.keys():
                         if snort_payload_options_dict[option_key]:
-                            snort_payload_options_dict[option_key].append(option_argument)
+                            snort_payload_options_dict[option_key].merge(option_argument)
                         else:
                             snort_payload_options_dict[option_key] = option_argument
 
                     elif option_key in snort_non_payload_options_dict.keys():
                         if snort_non_payload_options_dict[option_key]:
-                            snort_non_payload_options_dict[option_key].append(option_argument)
+                            snort_non_payload_options_dict[option_key].merge(option_argument)
                         else:
                             snort_non_payload_options_dict[option_key] = option_argument
 
                     elif option_key in snort_post_detection_options_dict.keys():
                         if snort_post_detection_options_dict[option_key]:
-                            snort_post_detection_options_dict[option_key].append(option_argument)
+                            snort_post_detection_options_dict[option_key].merge(option_argument)
                         else:
                             snort_post_detection_options_dict[option_key] = option_argument
 
