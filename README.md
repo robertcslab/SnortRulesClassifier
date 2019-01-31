@@ -4,7 +4,7 @@ To classify Snort rules regarding their level of granularity
 
 **Requirements**: Python 3.7+
 
-**Install**: 
+**Run**: 
 -   Go to the SnortRulesClassifier directory
 -   Type python SnortRuleClassifier.py
 
