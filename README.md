@@ -18,6 +18,8 @@ SnortRulesClassifier is a tool to parse Snort rules and classify them into the f
 
 -   String matching to a bounded depth in a flow (Content-related rules which log more than just the single packet that triggered the rule.')
 
+-   String matching across an entire flow (this class is temporary)
+
 
 
 
