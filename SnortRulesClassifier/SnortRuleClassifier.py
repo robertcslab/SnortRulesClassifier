@@ -1,6 +1,6 @@
 import itertools
 
-from SnortRulesClassifier.SnortRulesParser import RuleParser
+from SnortRulesParser import RuleParser
 
 input_file_name = "rules.txt"
 output_file_name = "classifiedrules.txt"

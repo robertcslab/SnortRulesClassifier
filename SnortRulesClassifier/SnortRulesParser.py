@@ -1,5 +1,5 @@
 import re
-from SnortRulesClassifier.SnortRule import Rule
+from SnortRule import Rule
 
 
 class RuleParser:
