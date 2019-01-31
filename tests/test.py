@@ -39,7 +39,7 @@ class TestSnortRulesParser(unittest.TestCase):
         self.assertEqual(non_payload_options['flow'][1],'established')
 
     def test_classify_rules(self):
-        # ToDo: Write down required test cases after finishing snort-classifier
+        # ToDo: Write required test cases after finishing snort-classifier
         pass
 
 
