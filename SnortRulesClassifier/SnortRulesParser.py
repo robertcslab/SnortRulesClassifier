@@ -4,15 +4,6 @@ from SnortRulesClassifier.SnortRule import Rule
 
 class RuleParser:
     """"  This Class should parse a Snort rule from a string   """
-    '''
-    sample rule:
-    alert tcp $HOME_NET 2589 -> $EXTERNAL_NET any (msg:"MALWARE-BACKDOOR - Dagger_1.4.0"; flow:to_client,established;
-    content:"2|00 00 00 06 00 00 00|Drives|24 00|"; depth:16; metadata:ruleset community; classtype:misc-activity; sid:105; rev:14;)
-
-    sample preprocessor rule:
-    alert ( msg: "BO_TRAFFIC_DETECT"; sid: 1; gid: 105; rev: 1; metadata: rule-type preproc, policy balanced-ips drop,\
-    policy security-ips drop ; classtype:trojan-activity; reference:cve,1999-0660; )
-    '''
     @staticmethod
     def extract_header_values(rule_string):
         snort_header_dict = Rule().header
@@ -53,16 +44,28 @@ class RuleParser:
                         option_argument.append(sub_item.lstrip())
 
                     if option_key in snort_general_options_dict.keys():
-                        snort_general_options_dict[option_key] = option_argument
+                        if snort_general_options_dict[option_key]:  # e.g, two content option with diff arguments
+                            snort_general_options_dict[option_key].append(option_argument)
+                        else:
+                            snort_general_options_dict[option_key] = option_argument
 
                     elif option_key in snort_payload_options_dict.keys():
-                        snort_payload_options_dict[option_key] = option_argument
+                        if snort_payload_options_dict[option_key]:
+                            snort_payload_options_dict[option_key].append(option_argument)
+                        else:
+                            snort_payload_options_dict[option_key] = option_argument
 
                     elif option_key in snort_non_payload_options_dict.keys():
-                        snort_non_payload_options_dict[option_key] = option_argument
+                        if snort_non_payload_options_dict[option_key]:
+                            snort_non_payload_options_dict[option_key].append(option_argument)
+                        else:
+                            snort_non_payload_options_dict[option_key] = option_argument
 
                     elif option_key in snort_post_detection_options_dict.keys():
-                        snort_post_detection_options_dict[option_key] = option_argument
+                        if snort_post_detection_options_dict[option_key]:
+                            snort_post_detection_options_dict[option_key].append(option_argument)
+                        else:
+                            snort_post_detection_options_dict[option_key] = option_argument
 
                     else:
                         pass

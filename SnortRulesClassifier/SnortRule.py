@@ -4,7 +4,7 @@ import re
 class Rule:
 
     def __init__(self):
-        self.header =  {
+        self.header = {
             "action": None,
             "protocol": None,
             "src_ip": None,
@@ -42,7 +42,7 @@ class Rule:
             # soid ( Shared Library Rule Generator and
             # SID ) ex: "gid|sid", service ( Target-Based
             # Service Identifier ) ex: "http"
-    }
+        }
         self.payload_options = {
             "content": None,
             # search for specific content in the packet payload
@@ -360,5 +360,17 @@ class Rule:
                     packet_checker = True
         return packet_checker and counter_checker
 
+    def multi_content_checked(self):
+        """  To check if the rule has more than one content option with diff arguments  """
+        if self.payload_options["content"] and len(self.payload_options["content"]) > 1:
+            return True
+        return False
 
-
+    def pcre_ordered_pattern_matching_checked(self):
+        """
+        To check if pcre fires rules with ordered strings(indicated through content) or not
+        return True if AT LEAST ONE ordered string matching has been detected
+        """
+        if self.payload_options["content"] and self.payload_options["pcre"]:
+            pass
+        return False
