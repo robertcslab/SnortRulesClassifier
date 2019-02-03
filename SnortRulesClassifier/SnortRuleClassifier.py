@@ -67,7 +67,9 @@ if __name__ == "__main__":
     for rule in SnortRulesManager.parse_rules_from_file():
         classified_rules.append(mngr.classify_rule(rule))
 
-    print("Snort Rules Classification:")
+    print("Check 'classifiedrules.txt' for the results.")
+
+    print("Output for test purpose:\n Snort Rules Classification:")
     for cat in mngr.snort_rules_classes:
         print("Class ID {}: {}".format(cat, mngr.snort_rules_classes[cat]))
 
