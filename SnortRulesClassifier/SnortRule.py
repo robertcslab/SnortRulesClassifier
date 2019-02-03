@@ -350,27 +350,35 @@ class Rule:
 
     def packet_counter_checked(self):
         """ To check if the rule applies only on k-packets among the all matched ones """
-        packet_checker = False
-        counter_checker = False
+        packet_checked = False
+        counter_checked = False
         if self.post_detection_options["tag"]:
             for item in self.post_detection_options["tag"]:
                 if re.match(r'^[0-9]+$', item):
-                    counter_checker = True
+                    counter_checked = True
                 if item == "packets":
-                    packet_checker = True
-        return packet_checker and counter_checker
+                    packet_checked = True
+        return packet_checked and counter_checked
 
     def multi_content_checked(self):
-        """  To check if the rule has more than one content option with diff arguments  """
+        """  To check if the rule has more than one content option """
         if self.payload_options["content"] and len(self.payload_options["content"]) > 1:
             return True
         return False
 
-    def pcre_ordered_pattern_matching_checked(self):
+    def ordered_pattern_matching_checked(self):
         """
-        To check if pcre fires rules with ordered strings(indicated through content) or not
+        To check if a rule fires every combination of patterns or just the ordered ones
         return True if AT LEAST ONE ordered string matching has been detected
         """
-        if self.payload_options["content"] and self.payload_options["pcre"]:
-            pass
+        if self.payload_options['distance'] or self.payload_options['within'] or self.payload_options['isdataat']:
+            return True
+        elif self.payload_options["pcre"]:
+            for pattern in self.payload_options['pcre']:  # on each pcre content modifier
+                counter = 0
+                for content in self.payload_options['content']:
+                    if content in pattern:
+                        counter = counter + 1
+                if counter > 1:
+                    return True  # TODO: Compile pcre for cases that some content could be ignored
         return False

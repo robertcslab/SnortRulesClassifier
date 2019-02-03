@@ -41,7 +41,7 @@ class RuleParser:
                     option_key = sub_options[0].lstrip()
                     sub_options = sub_options[1].split(',')
                     for sub_item in sub_options:
-                        option_argument.append(sub_item.lstrip())
+                        option_argument.append(sub_item.lstrip().strip('\"'))
 
                     if option_key in snort_general_options_dict.keys():
                         if snort_general_options_dict[option_key]:  # e.g, two content option with diff arguments
